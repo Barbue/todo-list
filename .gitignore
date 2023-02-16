@@ -1,3 +1,6 @@
+
+
+
 # Logs
 logs
 *.log
@@ -102,3 +105,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# for express
+bin/
+package-lock.json
