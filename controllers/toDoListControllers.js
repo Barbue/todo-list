@@ -3,6 +3,7 @@ var express = require("express");
 const doDoList = require('../models/toDoLists');
 
 
+////////// 1. Create Task //////////
 
 async function createToDoListEntry(req, res, next){
 
@@ -42,17 +43,34 @@ async function createToDoListEntry(req, res, next){
       }
       }
 
+////////// 2. Update Task (Mark as Completed/ Uncompleted) //////////
+// router.post('/update', function(req, res) {
+//   StudentModel.findByIdAndUpdate(req.body.id, 
+//   {Name:req.body.Name}, function(err, data) {
+//       if(err){
+//           console.log(err);
+//       }
+//       else{
+//           res.send(data);
+//           console.log("Data updated!");
+//       }
+//   });  
+// });
 
-    async function updateToDoListEntry(req, res, next){
-      onst dbConnect = dbo.getDb();
-  const listingQuery = { _id: req.body.id };
-  const updates = {
-    $inc: {
-      likes: 1,
-    },
-  };
 
-     const updateDoc = await doDoList.updateOne(
+
+
+
+  //   async function updateToDoListEntry(req, res, next){
+  //     const dbConnect = dbo.getDb();
+  // const listingQuery = { _id: req.body.id };
+  // const updates = {
+  //   $inc: {
+  //     likes: 1,
+  //   },
+  // };
+
+  //    const updateDoc = await doDoList.updateOne(
             //  {id:req.params.id},
             //  {$set: {completed: true, 
             //   dateCompleted: new Date(),
@@ -62,67 +80,153 @@ async function createToDoListEntry(req, res, next){
 
             /////////////////
 
-            router.put("/update-one/:blogToUpdate", async (req, res) => {
+          //   router.put("/update-one/:blogToUpdate", async (req, res) => {
 
-              try {
+          //     try {
           
-                  const blogToFind = req.params.blogToUpdate;
+          //         const blogToFind = req.params.blogToUpdate;
           
-                  const originalBlog = await db()
-                  .collection('sample_blogs')
-                  .findOne({
-                      title: blogToFind
-                  })
+          //         const originalBlog = await db()
+          //         .collection('sample_blogs')
+          //         .findOne({
+          //             title: blogToFind
+          //         })
           
                   
           
-                  const updatedBlog = {}
+          //         const updatedBlog = {}
           
                  
-                  updatedBlog.createdAt = new Date();
-                  updatedBlog.lastModified = new Date();
+          //         updatedBlog.createdAt = new Date();
+          //         updatedBlog.lastModified = new Date();
           
-                  const updateResponse = await db()
-                  .collection('sample_blogs')
-                  .updateOne({
-                      title: blogToFind
-                  }, {
-                      $set: updatedBlog
-                  })
+          //         const updateResponse = await db()
+          //         .collection('sample_blogs')
+          //         .updateOne({
+          //             title: blogToFind
+          //         }, {
+          //             $set: updatedBlog
+          //         })
           
-                  res.json({
-                      success: true,
-                      updatedBlog
-                  }).status(200);
-              }
+          //         res.json({
+          //             success: true,
+          //             updatedBlog
+          //         }).status(200);
+          //     }
           
-              catch (e) {
-                  console.log(e);
-                  res.json({
-                      success: false,
-                      error: String(e)
-                  }).status(500);
-              }
-          })
+          //     catch (e) {
+          //         console.log(e);
+          //         res.json({
+          //             success: false,
+          //             error: String(e)
+          //         }).status(500);
+          //     }
+          // })
             
       //       res.json({
       //         success: true,
       //         updateDoc: updateDoc
       // });
 
-    };
+    // };
+
+
+////////// 3. Delete Task //////////  
+
+
+
+
+
+
+///////// 4. Delete Multiple Tasks  //////////
+
+async function deleteMulti(req, res) {
+  try {
+     
+      // const idsToDelete = req.body
+
+    //  if (idsToDelete.length < 1){
+    //    throw Error("ids to delete empty!");
+    //  }
+     const deleteResult = await doDoList.deleteMany(req.query)
       
+    //    id: {
+    //      $in: idsToDelete
+    //    }
+    //  })
+
+     res.json({
+      success: true,
+      deleteResult: deleteResult
+    })
+ 
+ } catch (e) {
+   res.send(e);
+ }
+ 
+}
+
+
+
+////////// 5. Create Muliple Tasks //////////
+
+async function createMulti (req, res ,next) {
+  try {
+    const multicreated = await doDoList.insertMany(req.body)
+
+    //return the successful request to the user 
+    res.json({
+        success: true,
+        multicreated: multicreated
+  });
+
+  } catch (e) {
+    console.log(typeof e);
+    console.log(e);
+    res.json({
+      error: e.toString(),
+    });
+  }
+  }
+
+
+      
+////////// 6. Display all Tasks /////////
 
     async function displayAllEntries (req, res ,next) {
   try{
-        const allEntries = await doDoList.find({});
+    
+    const allEntries = await doDoList.find({});
         res.json({
           success: true,
-        allEntries: allEntries });
+          allEntries: allEntries
+
+        });
         }catch(e){
           console.log(e);
         }
       }
+  //const allEntries = 
+  //allEntries: allEntries
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
       
     
 
@@ -131,10 +235,13 @@ async function createToDoListEntry(req, res, next){
       
       
       
-        
+  ///////////  Export controller functions //////////      
 module.exports = {
     createToDoListEntry,
-    updateToDoListEntry,
+    //updateToDoListEntry,
     displayAllEntries,
+    deleteMulti,
+    createMulti,
+
     
 };

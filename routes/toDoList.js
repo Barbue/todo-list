@@ -7,8 +7,10 @@ const toDoListControllers = require('../controllers/toDoListControllers');
 
 
 router.post('/create-list-entry', toDoListControllers.createToDoListEntry);
-router.post('/update-list-entry', toDoListControllers.updateToDoListEntry);
-router.get('/all', toDoListControllers.displayAllEntries)   
+//router.post('/update-list-entry', toDoListControllers.updateToDoListEntry);
+router.get('/all', toDoListControllers.displayAllEntries);
+router.get('/delete-multi', toDoListControllers.deleteMulti);
+router.post('/create-multi', toDoListControllers.createMulti);
 
 
 
