@@ -44,93 +44,30 @@ async function createToDoListEntry(req, res, next){
       }
 
 ////////// 2. Update Task (Mark as Completed/ Uncompleted) //////////
-// router.post('/update', function(req, res) {
-//   StudentModel.findByIdAndUpdate(req.body.id, 
-//   {Name:req.body.Name}, function(err, data) {
-//       if(err){
-//           console.log(err);
-//       }
-//       else{
-//           res.send(data);
-//           console.log("Data updated!");
-//       }
-//   });  
-// });
+async function updateToDoListEntry(req, res, next){
+ const updated = await doDoList.findOne({name:req.body.name}) 
+
+ //const update = {completed: true, status: "complete"}
+ const update = {completed: false, status: "incomplete"}
+ await updated.updateOne(update)
+
+const updatedEntry = await doDoList.findOne({name:req.body.name})
+updatedEntry.completed
+updatedEntry.status
+
+  res.json({
+    success:true,
+    updated: updatedEntry
+    
+
+  })
+};
 
 
 
 
 
-  //   async function updateToDoListEntry(req, res, next){
-  //     const dbConnect = dbo.getDb();
-  // const listingQuery = { _id: req.body.id };
-  // const updates = {
-  //   $inc: {
-  //     likes: 1,
-  //   },
-  // };
-
-  //    const updateDoc = await doDoList.updateOne(
-            //  {id:req.params.id},
-            //  {$set: {completed: true, 
-            //   dateCompleted: new Date(),
-            //   status: "complete"
-            // }
-            // });
-
-            /////////////////
-
-          //   router.put("/update-one/:blogToUpdate", async (req, res) => {
-
-          //     try {
-          
-          //         const blogToFind = req.params.blogToUpdate;
-          
-          //         const originalBlog = await db()
-          //         .collection('sample_blogs')
-          //         .findOne({
-          //             title: blogToFind
-          //         })
-          
-                  
-          
-          //         const updatedBlog = {}
-          
-                 
-          //         updatedBlog.createdAt = new Date();
-          //         updatedBlog.lastModified = new Date();
-          
-          //         const updateResponse = await db()
-          //         .collection('sample_blogs')
-          //         .updateOne({
-          //             title: blogToFind
-          //         }, {
-          //             $set: updatedBlog
-          //         })
-          
-          //         res.json({
-          //             success: true,
-          //             updatedBlog
-          //         }).status(200);
-          //     }
-          
-          //     catch (e) {
-          //         console.log(e);
-          //         res.json({
-          //             success: false,
-          //             error: String(e)
-          //         }).status(500);
-          //     }
-          // })
-            
-      //       res.json({
-      //         success: true,
-      //         updateDoc: updateDoc
-      // });
-
-    // };
-
-
+ 
 ////////// 3. Delete Task //////////  
 
 
@@ -141,43 +78,33 @@ async function createToDoListEntry(req, res, next){
 ///////// 4. Delete Multiple Tasks  //////////
 
 async function deleteMulti(req, res) {
-  try {
+try {
      
-      // const idsToDelete = req.body
-
-    //  if (idsToDelete.length < 1){
-    //    throw Error("ids to delete empty!");
-    //  }
-     const deleteResult = await doDoList.deleteMany(req.query)
+  const deleteResult = await doDoList.deleteMany(req.query)
       
-    //    id: {
-    //      $in: idsToDelete
-    //    }
-    //  })
-
-     res.json({
+  res.json({
       success: true,
       deleteResult: deleteResult
-    })
+ })
  
  } catch (e) {
    res.send(e);
  }
  
-}
+ }
 
 
 
 ////////// 5. Create Muliple Tasks //////////
 
 async function createMulti (req, res ,next) {
-  try {
+try{
     const multicreated = await doDoList.insertMany(req.body)
 
-    //return the successful request to the user 
-    res.json({
-        success: true,
-        multicreated: multicreated
+    
+  res.json({
+      success: true,
+      multicreated: multicreated
   });
 
   } catch (e) {
@@ -185,7 +112,7 @@ async function createMulti (req, res ,next) {
     console.log(e);
     res.json({
       error: e.toString(),
-    });
+  });
   }
   }
 
@@ -194,54 +121,28 @@ async function createMulti (req, res ,next) {
 ////////// 6. Display all Tasks /////////
 
     async function displayAllEntries (req, res ,next) {
-  try{
+    try{
     
     const allEntries = await doDoList.find({});
-        res.json({
-          success: true,
-          allEntries: allEntries
 
-        });
-        }catch(e){
+    res.json({
+        success: true,
+        allEntries: allEntries
+
+      });
+      }catch(e){
           console.log(e);
-        }
       }
-  //const allEntries = 
-  //allEntries: allEntries
-
+      }
+  
     
+///////////  Export controller functions //////////  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-      
-      
-    
-
-
-
-      
-      
-      
-  ///////////  Export controller functions //////////      
-module.exports = {
+module.exports = 
+{
     createToDoListEntry,
-    //updateToDoListEntry,
+    updateToDoListEntry,
     displayAllEntries,
     deleteMulti,
     createMulti,
-
-    
 };
