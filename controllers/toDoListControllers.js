@@ -1,4 +1,4 @@
-const { v4: uuidv4, v4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 var express = require("express");
 const doDoList = require('../models/toDoLists');
 
@@ -14,7 +14,7 @@ try {
     const completed = false
     const dateCompleted = req.body.dateCompleted
     const status = req.body.status
-        
+
 //pass fields to new Blog model 
 //notice how it's way more organized and does the type checking for us
 const newListEntry = new doDoList({
@@ -23,8 +23,8 @@ const newListEntry = new doDoList({
       completed,
       dateCompleted,
       status,
-      });
-    
+    });
+      
 //save our new entry to the database 
 const savedListEntry =  await newListEntry.save();
         

@@ -9,7 +9,9 @@ const doDoListSchema = new mongoose.Schema({
     completed: {type:Boolean, required: true},
     dateCreated: {type: Date, default: Date.now, required: true},
     dateCompleted:  {type: Date},
-    status: {type: String, default: "incomplete", required: true, enum: ["incomplete","complete","deferred"]}
+    status: {type: String, default: "incomplete", required: true, enum: ["incomplete","complete","deferred"]},
+    id: {type: String, default: uuidv4()}
+    
 });
 
 
