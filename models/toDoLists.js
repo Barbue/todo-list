@@ -8,7 +8,7 @@ const doDoListSchema = new mongoose.Schema({
     description: {type:String}, 
     completed: {type:Boolean, required: true},
     dateCreated: {type: Date, default: Date.now, required: true},
-    dateCompleted:  Date,
+    dateCompleted:  {type: Date},
     status: {type: String, default: "incomplete", required: true, enum: ["incomplete","complete","deferred"]}
 });
 

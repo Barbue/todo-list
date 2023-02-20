@@ -11,6 +11,7 @@ router.put('/update-list-entry', toDoListControllers.updateToDoListEntry);
 router.get('/all', toDoListControllers.displayAllEntries);
 router.delete('/delete-multi', toDoListControllers.deleteMulti);
 router.post('/create-multi', toDoListControllers.createMulti);
+router.delete('/delete-one', toDoListControllers.deleteOne);
 
 
 

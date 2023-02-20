@@ -44,12 +44,13 @@ async function createToDoListEntry(req, res, next){
       }
 
 ////////// 2. Update Task (Mark as Completed/ Uncompleted) //////////
+
 async function updateToDoListEntry(req, res, next){
  const updated = await doDoList.findOne({name:req.body.name}) 
 
  //const update = {completed: true, status: "complete"}
- const update = {completed: false, status: "incomplete"}
- await updated.updateOne(update)
+ //const update = {completed: false, status: "incomplete"}
+ await updated.updateOne({completed:req.body.completed, status:req.body.status,dateCompleted:req.body.dateCompleted })
 
 const updatedEntry = await doDoList.findOne({name:req.body.name})
 updatedEntry.completed
@@ -70,6 +71,30 @@ updatedEntry.status
  
 ////////// 3. Delete Task //////////  
 
+async function deleteOne(req, res, next){
+
+  try {
+     
+    const deletedOneEntry = await doDoList.deleteOne({name:req.body.name})
+        
+    res.json({
+        success: true,
+        deletedResult: deletedOneEntry
+   })
+   
+   } catch (e) {
+     res.send(e);
+   }
+   
+   }
+
+
+
+
+
+
+
+
 
 
 
@@ -77,7 +102,7 @@ updatedEntry.status
 
 ///////// 4. Delete Multiple Tasks  //////////
 
-async function deleteMulti(req, res) {
+async function deleteMulti(req, res, next) {
 try {
      
   const deleteResult = await doDoList.deleteMany(req.query)
@@ -145,4 +170,5 @@ module.exports =
     displayAllEntries,
     deleteMulti,
     createMulti,
+    deleteOne
 };
