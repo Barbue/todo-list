@@ -46,22 +46,28 @@ res.json({
 ////////// 2. Update Task (Mark as Completed/ Uncompleted) //////////
 
 async function updateToDoListEntry(req, res, next){
+
+try {
+
 const updated = await doDoList.findOne({name:req.body.name}); 
 
  //const update = {completed: true, status: "complete"}
  //const update = {completed: false, status: "incomplete"}
-await updated.updateOne({completed:req.body.completed, status:req.body.status,dateCompleted:req.body.dateCompleted });
+await updated.updateOne({completed:req.body.completed, status:req.body.status,dateCompleted:req.body.dateCompleted});
 
 const updatedEntry = await doDoList.findOne({name:req.body.name});
 updatedEntry.completed;
 updatedEntry.status;
+updatedEntry.dateCompleted;
 
 res.json({
   success:true,
   updated: updatedEntry
-    
-
 })
+
+} catch (e) {
+  res.send(e);
+}
 };
 
 ////////// 3. Delete Task //////////  
@@ -149,3 +155,8 @@ module.exports =
     createMulti,
     deleteOne
 };
+
+
+
+
+
