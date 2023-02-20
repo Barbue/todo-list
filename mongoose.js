@@ -14,15 +14,15 @@ const mongoDB = process.env.ATLAS_URI;
 
 //connecting
 async function mongooseConnect() {
-    try {
-  await mongoose.connect(mongoDB);
+try {
+await mongoose.connect(mongoDB);
 
 } catch (error) {
   throw error;
-
 }
 }
 
-module.exports ={
+module.exports = 
+{
     mongooseConnect
 }

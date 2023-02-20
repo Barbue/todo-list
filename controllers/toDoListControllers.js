@@ -7,129 +7,109 @@ const doDoList = require('../models/toDoLists');
 
 async function createToDoListEntry(req, res, next){
 
-    try {
-        //parse out fields from POST request
-        const name  = req.body.name
-        const description = req.body.description
-        const completed = false
-        const dateCompleted = req.body.dateCompleted
-        const status = req.body.status
+try {
+    //parse out fields from POST request
+    const name  = req.body.name
+    const description = req.body.description
+    const completed = false
+    const dateCompleted = req.body.dateCompleted
+    const status = req.body.status
         
-        //pass fields to new Blog model 
-        //notice how it's way more organized and does the type checking for us
-        const newListEntry = new doDoList({
-            name,  
-            description,
-            completed,
-            dateCompleted,
-            status,
-        });
+//pass fields to new Blog model 
+//notice how it's way more organized and does the type checking for us
+const newListEntry = new doDoList({
+      name,  
+      description,
+      completed,
+      dateCompleted,
+      status,
+      });
     
-        //save our new entry to the database 
-        const savedListEntry =  await newListEntry.save();
+//save our new entry to the database 
+const savedListEntry =  await newListEntry.save();
         
-        //return the successful request to the user 
-        res.json({
-            success: true,
-            listEntry: savedListEntry
-        });
+//return the successful request to the user 
+res.json({
+    success: true,
+    listEntry: savedListEntry
+      });
     
       } catch (e) {
         console.log(typeof e);
         console.log(e);
         res.json({
           error: e.toString(),
-        });
-      }
-      }
+      });
+      };
+      };
 
 ////////// 2. Update Task (Mark as Completed/ Uncompleted) //////////
 
 async function updateToDoListEntry(req, res, next){
- const updated = await doDoList.findOne({name:req.body.name}) 
+const updated = await doDoList.findOne({name:req.body.name}); 
 
  //const update = {completed: true, status: "complete"}
  //const update = {completed: false, status: "incomplete"}
- await updated.updateOne({completed:req.body.completed, status:req.body.status,dateCompleted:req.body.dateCompleted })
+await updated.updateOne({completed:req.body.completed, status:req.body.status,dateCompleted:req.body.dateCompleted });
 
-const updatedEntry = await doDoList.findOne({name:req.body.name})
-updatedEntry.completed
-updatedEntry.status
+const updatedEntry = await doDoList.findOne({name:req.body.name});
+updatedEntry.completed;
+updatedEntry.status;
 
-  res.json({
-    success:true,
-    updated: updatedEntry
+res.json({
+  success:true,
+  updated: updatedEntry
     
 
-  })
+})
 };
 
-
-
-
-
- 
 ////////// 3. Delete Task //////////  
 
 async function deleteOne(req, res, next){
 
-  try {
+try {
      
-    const deletedOneEntry = await doDoList.deleteOne({name:req.body.name})
+const deletedOneEntry = await doDoList.deleteOne({name:req.body.name})
         
-    res.json({
-        success: true,
-        deletedResult: deletedOneEntry
+res.json({
+    success: true,
+    deletedResult: deletedOneEntry
    })
    
    } catch (e) {
      res.send(e);
    }
-   
-   }
-
-
-
-
-
-
-
-
-
-
-
-
+   };
 
 ///////// 4. Delete Multiple Tasks  //////////
 
 async function deleteMulti(req, res, next) {
 try {
      
-  const deleteResult = await doDoList.deleteMany(req.query)
+const deleteResult = await doDoList.deleteMany(req.query)
       
-  res.json({
-      success: true,
-      deleteResult: deleteResult
+res.json({
+    success: true,
+    deleteResult: deleteResult
  })
  
  } catch (e) {
    res.send(e);
  }
- 
- }
-
-
+ };
 
 ////////// 5. Create Muliple Tasks //////////
 
-async function createMulti (req, res ,next) {
-try{
-    const multicreated = await doDoList.insertMany(req.body)
+async function createMulti(req, res ,next) {
+try {
+
+const multicreated = await doDoList.insertMany(req.body)
 
     
-  res.json({
-      success: true,
-      multicreated: multicreated
+res.json({
+    success: true,
+    multicreated: multicreated
   });
 
   } catch (e) {
@@ -139,28 +119,25 @@ try{
       error: e.toString(),
   });
   }
-  }
+  };
 
-
-      
 ////////// 6. Display all Tasks /////////
 
-    async function displayAllEntries (req, res ,next) {
-    try{
+async function displayAllEntries (req, res ,next) {
+try {
     
-    const allEntries = await doDoList.find({});
+const allEntries = await doDoList.find({});
 
-    res.json({
-        success: true,
-        allEntries: allEntries
-
-      });
-      }catch(e){
-          console.log(e);
-      }
-      }
+res.json({
+    success: true,
+    allEntries: allEntries
+});
+      
+}catch(e){
+ console.log(e);
+}
+};
   
-    
 ///////////  Export controller functions //////////  
 
 module.exports = 

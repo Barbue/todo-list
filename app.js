@@ -4,13 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
 // load environment variables from .env (.env is the default file)
 require("dotenv").config();
 
 //look in our .env file for PORT, if it's not there, default to 5002.
 const PORT = process.env.PORT || 3000;
 
+// Imports mongooseConnect/calls function
 var { mongooseConnect } = require('./mongoose.js');
 mongooseConnect();
 
